@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Client = require('../models/client');
 
 // Получить список клиентов
+// Тестируем ГИТ
 router.get('/', (req, res, next) => {
     Client.find()
     .exec()
