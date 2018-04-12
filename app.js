@@ -11,6 +11,7 @@ mongoose.connect('mongodb://alkuropov:3edcxsw2@ds239029.mlab.com:39029/clientsno
 
 app.use(morgan('dev'));
 app.use(bodyParser({extended: false}));
+app.use(bodyParser.urlencoded()); 
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {

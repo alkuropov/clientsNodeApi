@@ -8,6 +8,7 @@ const Client = require('../models/client');
 // Тестируем ГИТ
 router.get('/', (req, res, next) => {
     Client.find()
+    .populate('visits')
     .exec()
     .then( docs => {
         console.log(docs);
@@ -37,7 +38,9 @@ router.post('/', (req, res, next) => {
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({
+            error: err
+        });
     });
 });
 
@@ -51,12 +54,16 @@ router.get('/:clientId', (req, res, next) => {
         if (doc) {
             res.status(200).json(doc);
         } else {
-            res.status(404).json({message: "Нет документов"});
+            res.status(404).json({
+                message: "Нет документов"
+            });
         }
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({
+            error: err
+        });
     })
 });
 
@@ -71,7 +78,9 @@ router.patch('/:clientId', (req, res, next) => {
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({error: err});
+        res.status(500).json({
+            error: err
+        });
     })
 });
 
@@ -88,7 +97,9 @@ router.delete('/:clientId', (req, res, next) => {
         });
     })
     .catch(err => {
-        res.status(500).json({error: err});
+        res.status(500).json({
+            error: err
+        });
     })
 });
 
