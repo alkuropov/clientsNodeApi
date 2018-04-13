@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Client = require('../models/client');
 const Visit = require('../models/visit');
 
-// Список визитов
+// Список всех визитов
 router.get('/', (req, res, next) => {
     Visit.find()
     .populate('clientId')
@@ -22,6 +22,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
+// Создание нового визита
 router.post('/', (req, res, next) => {
     const visit = new Visit({
         _id: new mongoose.Types.ObjectId(),
@@ -33,9 +34,8 @@ router.post('/', (req, res, next) => {
     })
     visit.save().then(result => {
         console.log(result);
-        // console.log(result.clientId);
-        // console.log(result._id);
 
+        // Ищем клиента по ID и добавляем новый визит
         Client.findByIdAndUpdate(result.clientId, { $push: { "visits": result._id} })
         .exec()
         .then(doc => {
@@ -44,7 +44,7 @@ router.post('/', (req, res, next) => {
                 res.status(200).json(doc);
             } else {
                 res.status(404).json({
-                    message: "Нет документов"
+                    message: "Клиент не найден"
                 });
             }
         })
@@ -72,6 +72,7 @@ router.post('/', (req, res, next) => {
 router.get('/:visitId', (req, res, next) => {
     const id = req.params.visitId;
     Visit.findById(id)
+    .populate('clientId')
     .exec()
     .then(doc => {
         console.log(doc);

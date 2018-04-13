@@ -48,6 +48,7 @@ router.post('/', (req, res, next) => {
 router.get('/:clientId', (req, res, next) => {
     const id = req.params.clientId;
     Client.findById(id)
+    .populate('visits')
     .exec()
     .then(doc => {
         console.log(doc);
@@ -55,7 +56,7 @@ router.get('/:clientId', (req, res, next) => {
             res.status(200).json(doc);
         } else {
             res.status(404).json({
-                message: "Нет документов"
+                message: "Клиент не найден"
             });
         }
     })
