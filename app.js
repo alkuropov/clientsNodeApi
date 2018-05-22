@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const clientRoutes = require('./api/routes/clients');
 const visitRoutes = require('./api/routes/visits');
+const userRoutes = require('./api/routes/user');
 
 mongoose.connect('mongodb://alkuropov:3edcxsw2@ds239029.mlab.com:39029/clientsnodeapi');
 
@@ -15,21 +16,26 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-type, Accept, Authorization"
-    );
-    if (req.method === 'OPTIONS') {
-        res.header("Access-Control-Allow-Metods", "GET, POST, PUT, PATCH, DELETE");
-        return res.status(200).json({});
-    }
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header(
+    //     "Access-Control-Allow-Headers",
+    //     "Origin, X-Requested-With, Content-type, Accept, Authorization"
+    // );
+    // if (req.method === 'OPTIONS') {
+    //     res.header("Access-Control-Allow-Metods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    //     return res.status(200).json({});
+    // }
+    // next();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 })
 
 // Основные маршруты
 app.use('/clients', clientRoutes);
 app.use('/visits', visitRoutes);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');

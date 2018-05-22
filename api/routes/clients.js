@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const checkAuth = require('../middleware/check-auth')
 
 const Client = require('../models/client');
 
 // Получить список клиентов
 // Тестируем ГИТ
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
     Client.find()
     .populate('visits')
     .exec()
