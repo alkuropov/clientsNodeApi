@@ -29,8 +29,9 @@ router.post('/', (req, res, next) => {
         clientId: req.body.clientId,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        status: req.body.status,
+        duration: req.body.duration,
         amount: req.body.amount,
+        status: req.body.status,
     })
     visit.save().then(result => {
         console.log(result);
