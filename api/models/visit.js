@@ -1,3 +1,5 @@
+const Client = require('../models/client');
+
 const mongoose = require('mongoose');
 
 const visitSchema = mongoose.Schema({
@@ -11,3 +13,19 @@ const visitSchema = mongoose.Schema({
 },{timestamps: true});
 
 module.exports = mongoose.model('Visit', visitSchema);
+
+// visitSchema.pre('save', function(next) {
+//     console.log(`Pre -> save - begin ...`)
+// })
+
+visitSchema.pre('remove', function(next) {
+
+    Client.update(
+        {_id: this.clientId},
+        {$pull: {visits: this._id}}
+    )
+    .exec();
+    next();
+
+    console.log("У клиента " + this.clientId + " удален визит " + this._id)
+});

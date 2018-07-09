@@ -11,8 +11,8 @@ const userRoutes = require('./api/routes/user');
 mongoose.connect('mongodb://alkuropov:3edcxsw2@ds239029.mlab.com:39029/clientsnodeapi');
 
 app.use(morgan('dev'));
-app.use(bodyParser({extended: false}));
-app.use(bodyParser.urlencoded()); 
+// app.use(bodyParser({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {

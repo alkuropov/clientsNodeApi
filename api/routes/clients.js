@@ -24,11 +24,12 @@ router.get('/', checkAuth, (req, res, next) => {
 });
 
 // Добавить нового клиента
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     const client = new Client({
         // _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        phone: req.body.phone
+        phone: req.body.phone,
+        description: req.body.description
     })
     client.save().then(result => {
         console.log(result);
@@ -46,7 +47,7 @@ router.post('/', (req, res, next) => {
 });
 
 // Получить клиента по ID
-router.get('/:clientId', (req, res, next) => {
+router.get('/:clientId', checkAuth, (req, res, next) => {
     const id = req.params.clientId;
     Client.findById(id)
     .populate('visits')
@@ -70,7 +71,7 @@ router.get('/:clientId', (req, res, next) => {
 });
 
 // Обновить клиента по ID
-router.patch('/:clientId', (req, res, next) => {
+router.patch('/:clientId', checkAuth, (req, res, next) => {
     const id = req.params.clientId;
     Client.findByIdAndUpdate(id, req.body, {new: true})
     .exec()
@@ -87,7 +88,7 @@ router.patch('/:clientId', (req, res, next) => {
 });
 
 // Удалить клиента по ID
-router.delete('/:clientId', (req, res, next) => {
+router.delete('/:clientId', checkAuth, (req, res, next) => {
     const id = req.params.clientId;
     Client.remove({_id: id})
     .exec()
