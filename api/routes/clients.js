@@ -90,20 +90,15 @@ router.patch('/:clientId', checkAuth, (req, res, next) => {
 // Удалить клиента по ID
 router.delete('/:clientId', checkAuth, (req, res, next) => {
     const id = req.params.clientId;
-    Client.remove({_id: id})
+
+    Client.findOneAndRemove({_id: id})
     .exec()
-    .then(result => {
-        console.log(result);
-        res.status(200).json({
-            message: "Клиент удален",
-            clientId: id
-        });
+    .then(doc => {
+        // console.log(doc);
+        doc.remove();
     })
-    .catch(err => {
-        res.status(500).json({
-            error: err
-        });
-    })
+
+    res.status(200).json("Удален визит " + id);
 });
 
 module.exports = router;

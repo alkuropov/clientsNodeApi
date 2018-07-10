@@ -14,10 +14,7 @@ const visitSchema = mongoose.Schema({
 
 module.exports = mongoose.model('Visit', visitSchema);
 
-// visitSchema.pre('save', function(next) {
-//     console.log(`Pre -> save - begin ...`)
-// })
-
+// При удалении посещения обновляем массив посещений у клиента
 visitSchema.pre('remove', function(next) {
 
     Client.update(
