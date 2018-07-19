@@ -1,5 +1,3 @@
-const Client = require('../models/client');
-
 const mongoose = require('mongoose');
 
 const visitSchema = mongoose.Schema({
@@ -8,6 +6,7 @@ const visitSchema = mongoose.Schema({
     startDate: Date,
     endDate: Date,
     duration: Number,
+    description: String,
     amount: Number,
     status: Boolean,
 },{timestamps: true});
@@ -16,12 +15,13 @@ module.exports = mongoose.model('Visit', visitSchema);
 
 // При удалении посещения обновляем массив посещений у клиента
 visitSchema.pre('remove', function(next) {
-
-    Client.update(
+    
+    mongoose.models['Client'].update (
         {_id: this.clientId},
         {$pull: {visits: this._id}}
     )
     .exec();
+
     next();
 
     console.log("У клиента " + this.clientId + " удален визит " + this._id)

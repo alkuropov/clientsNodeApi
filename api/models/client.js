@@ -1,5 +1,3 @@
-const Visit = require('../models/visit');
-
 const mongoose = require('mongoose');
 
 const clientSchema = mongoose.Schema({
@@ -15,10 +13,11 @@ module.exports = mongoose.model('Client', clientSchema);
 // При удалении клиента ищем и удаляем все его посещения
 clientSchema.pre('remove', function(next) {
 
-    Visit.deleteMany(
+    mongoose.models['Visit'].deleteMany(
         {clientId: this._id}
     )
     .exec();
+    
     next();
 
     console.log("Удален клиент " + this._id)

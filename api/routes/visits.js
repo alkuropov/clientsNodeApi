@@ -32,6 +32,7 @@ router.post('/', checkAuth, (req, res, next) => {
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         duration: req.body.duration,
+        description: req.body.description,
         amount: req.body.amount,
         status: req.body.status,
     })
