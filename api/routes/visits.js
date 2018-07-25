@@ -93,6 +93,7 @@ router.get('/:visitId', checkAuth, (req, res, next) => {
 router.patch('/:visitId', checkAuth, (req, res, next) => {
     const id = req.params.visitId;
     Visit.findByIdAndUpdate(id, req.body, {new: true})
+    .populate('clientId')
     .exec()
     .then(result => {
         console.log(result);
